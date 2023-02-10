@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:orientation="horizontal"
+    android:weightSum="100">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="16"
+        android:src="@drawable/book_open_variant"
+        android:layout_gravity="center_vertical"/>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="85"
+        android:orientation="vertical"
+        android:paddingHorizontal="8dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title Text"
+            android:textColor="@color/teal_700"
+            android:textSize="@dimen/title_size" />
+
+        <TextView
+            android:id="@+id/tv_authors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Authors"
+            android:textColor="@color/black"
+            android:textSize="@dimen/authors_size" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:id="@+id/tv_publisher"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="70"
+                android:gravity="start"
+                android:text="El Shrouk" />
+
+            <TextView
+                android:id="@+id/tv_published_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:gravity="end"
+                android:text="2022" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

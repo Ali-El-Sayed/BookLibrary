@@ -1,10 +1,11 @@
 package com.example.bookslibrary;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,12 +23,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class BookListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private ProgressBar mProgressBar;
     private TextView mErrorMessage;
     private RecyclerView mRvBooks;
 
-    @Override
+    private static final String TAG = "BookListActivity";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +40,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         LinearLayoutManager bookLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRvBooks.setLayoutManager(bookLayoutManager);
 
+        URL bookUrl;
+        Intent intent = getIntent();
+        String query = intent.getStringExtra("QUERY");
+
+        Log.d(TAG, "onCreate: " + query);
         try {
-            URL bookUrl = ApiUtil.buildUrl("android");
+            if (query == null || query.isEmpty())
+                bookUrl = ApiUtil.buildUrl("harry potter");
+            else
+                bookUrl = new URL(query);
+
             new BooksQueryTask().execute(bookUrl);
         } catch (Exception e) {
             Log.d("MainActivity", "onCreate: " + e);
@@ -54,6 +64,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setOnQueryTextListener(this);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.advanced_search) {
+            startActivity(new Intent(this, SearchActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

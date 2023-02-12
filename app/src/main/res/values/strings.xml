@@ -2,4 +2,12 @@
     <string name="app_name">BooksLibrary</string>
     <string name="error_data_message">Error Loading data from the Google Books API</string>
     <string name="menu_search">Search</string>
+
+    <string name="hint_title">Insert Title</string>
+    <string name="hint_author">Insert Author(s)</string>
+    <string name="hint_publisher">Insert Publisher</string>
+    <string name="hint_isbn">Insert ISBN</string>
+    <string name="search">Search</string>
+    <string name="advanced_search">Advanced Search</string>
+    <string name="no_search_terms">Please Insert Valid Search Terms</string>
 </resources>

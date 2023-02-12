@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="Book"
+            type="com.example.bookslibrary.model.Book" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <ImageView
+                android:id="@+id/imgThumbnail"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                app:imageUrl="@{Book.thumbnail}"
+                android:layout_marginStart="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSubtitle"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:text="@{Book.title}"
+                android:textColor="@color/teal_700"
+                android:textSize="24sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:text="@{Book.subTitle}"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+            <TextView
+                android:id="@+id/tvAuthors"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:text="@{Book.authors}"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toRightOf="@+id/imgThumbnail"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSubtitle" />
+
+            <TextView
+                android:id="@+id/tvPublisher"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:text="@{Book.publisher}"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toRightOf="@+id/imgThumbnail"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAuthors" />
+
+            <TextView
+                android:id="@+id/tvPublisherDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:text="@{Book.publishedDate}"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toRightOf="@+id/imgThumbnail"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPublisher" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/standard_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/standard_margin"
+                android:text="@{Book.description}"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgThumbnail" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

@@ -1,6 +1,7 @@
 package com.example.bookslibrary.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bookslibrary.BookDetails;
 import com.example.bookslibrary.R;
 import com.example.bookslibrary.model.Book;
 
 import java.util.ArrayList;
 
 public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHolder> {
-    private ArrayList<Book> books = new ArrayList<>();
+    final ArrayList<Book> books;
 
     public BooksAdapter(ArrayList<Book> books) {
         this.books = books;
@@ -40,7 +42,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         return books.size();
     }
 
-    public static class BookViewHolder extends RecyclerView.ViewHolder {
+
+    public class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView mTvTitle;
         TextView mTvAuthors;
         TextView mTvPublisher;
@@ -52,18 +55,23 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             mTvAuthors = itemView.findViewById(R.id.tv_authors);
             mTvPublishedDate = itemView.findViewById(R.id.tv_published_date);
             mTvPublisher = itemView.findViewById(R.id.tv_publisher);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(@NonNull Book books) {
             mTvTitle.setText(books.title);
             mTvPublisher.setText(books.publisher);
             mTvPublishedDate.setText(books.publishedDate);
-            StringBuilder author = new StringBuilder();
-            for (int i = 0; i < books.authors.length; i++) {
-                author.append(books.authors[i]);
-                if (i + 1 < books.authors.length) author.append(", ");
-            }
-            mTvAuthors.setText(author.toString());
+            mTvAuthors.setText(books.authors);
+        }
+
+        @Override
+        public void onClick(@NonNull View view) {
+            int position = getAdapterPosition();
+            Book selectedBook = books.get(position);
+            Intent intent = new Intent(view.getContext(), BookDetails.class);
+            intent.putExtra("Book", selectedBook);
+            view.getContext().startActivity(intent);
         }
     }
 }

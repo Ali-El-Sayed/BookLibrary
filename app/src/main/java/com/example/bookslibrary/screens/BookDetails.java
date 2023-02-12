@@ -1,4 +1,4 @@
-package com.example.bookslibrary;
+package com.example.bookslibrary.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.bookslibrary.R;
 import com.example.bookslibrary.databinding.ActivityBookDetailsBinding;
 import com.example.bookslibrary.model.Book;
 import com.squareup.picasso.Callback;

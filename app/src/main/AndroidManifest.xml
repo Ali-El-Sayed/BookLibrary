@@ -18,13 +18,13 @@
         android:theme="@style/Theme.BooksLibrary"
         tools:targetApi="31">
         <activity
-            android:name=".SearchActivity"
+            android:name=".screens.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".BookDetails"
+            android:name=".screens.BookDetails"
             android:exported="false" />
         <activity
-            android:name=".BookListActivity"
+            android:name=".screens.BookListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

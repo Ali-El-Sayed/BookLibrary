@@ -1,17 +1,18 @@
-package com.example.bookslibrary;
+package com.example.bookslibrary.screens;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.bookslibrary.R;
 import com.example.bookslibrary.databinding.ActivitySearchBinding;
-
-import java.net.URL;
+import com.example.bookslibrary.util.ApiUtil;
+import com.example.bookslibrary.util.SpUtil;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -21,8 +22,7 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        ActivitySearchBinding binding = DataBindingUtil
-                .setContentView(this, R.layout.activity_search);
+        ActivitySearchBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
 
 
         binding.btnSearch.setOnClickListener(view -> {
@@ -30,8 +30,7 @@ public class SearchActivity extends AppCompatActivity {
             String author = binding.etAuthor.getText().toString().trim().toLowerCase();
             // International Standard Book Number
             String isbn = binding.etISBN.getText().toString().trim().toLowerCase();
-            if (isbn.contains("-"))
-                isbn = isbn.replace("-", "");
+            if (isbn.contains("-")) isbn = isbn.replace("-", "");
 
             String publisher = binding.etPublisher.getText().toString().trim().toLowerCase();
 
@@ -39,10 +38,18 @@ public class SearchActivity extends AppCompatActivity {
                 String message = getString(R.string.no_search_terms);
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             } else {
-                Log.d(TAG, "onCreate: " + isbn);
                 String queryURL = ApiUtil.buildUrl(title, author, publisher, isbn).toString();
-                Log.d(TAG, "onCreate: " + queryURL);
                 Intent intent = new Intent(getApplicationContext(), BookListActivity.class);
+                Context context = getApplicationContext();
+                int position = SpUtil.getPrefInt(context, SpUtil.POSITION);
+                if (position == 0 || position == 5) position = 1;
+                else ++position;
+
+                String key = SpUtil.QUERY + position;
+                String value = title + "," + author + publisher + "," + isbn;
+
+                SpUtil.setPrefString(context, key, value);
+                SpUtil.setPrefInt(context, SpUtil.POSITION, position);
                 intent.putExtra("QUERY", queryURL);
                 startActivity(intent);
                 finish();

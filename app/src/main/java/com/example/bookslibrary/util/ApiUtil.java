@@ -1,4 +1,4 @@
-package com.example.bookslibrary;
+package com.example.bookslibrary.util;
 
 import com.example.bookslibrary.model.Book;
 

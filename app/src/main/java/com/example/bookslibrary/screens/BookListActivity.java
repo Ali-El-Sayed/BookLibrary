@@ -1,4 +1,4 @@
-package com.example.bookslibrary;
+package com.example.bookslibrary.screens;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +16,11 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.example.bookslibrary.R;
 import com.example.bookslibrary.adapter.BooksAdapter;
 import com.example.bookslibrary.model.Book;
+import com.example.bookslibrary.util.ApiUtil;
+import com.example.bookslibrary.util.SpUtil;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +30,7 @@ public class BookListActivity extends AppCompatActivity implements SearchView.On
     private ProgressBar mProgressBar;
     private TextView mErrorMessage;
     private RecyclerView mRvBooks;
+    private URL bookUrl;
 
     private static final String TAG = "BookListActivity";
 
@@ -40,7 +44,6 @@ public class BookListActivity extends AppCompatActivity implements SearchView.On
         LinearLayoutManager bookLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRvBooks.setLayoutManager(bookLayoutManager);
 
-        URL bookUrl;
         Intent intent = getIntent();
         String query = intent.getStringExtra("QUERY");
 
@@ -63,14 +66,38 @@ public class BookListActivity extends AppCompatActivity implements SearchView.On
         MenuItem search = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setOnQueryTextListener(this);
+        ArrayList<String> recentSearch = SpUtil.getQueryList(getApplicationContext());
+        int itemsNum = recentSearch.size();
+        MenuItem recentMenu;
+        for (int i = 0; i < itemsNum; i++)// ID - Text
+            recentMenu = menu.add(Menu.NONE, i, Menu.NONE, recentSearch.get(i));
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.advanced_search) {
-            startActivity(new Intent(this, SearchActivity.class));
-            return true;
+        switch (item.getItemId()) {
+            case R.id.advanced_search:
+                startActivity(new Intent(this, SearchActivity.class));
+                return true;
+
+            default:
+                int position = item.getItemId() + 1;
+                String preferenceName = SpUtil.QUERY + position;
+                String query = SpUtil.getPrefString(getApplicationContext(), preferenceName);
+                String[] prefParams = query.split(",");
+                String[] queryParams = new String[4];
+
+                System.arraycopy(prefParams, 0, queryParams, 0, prefParams.length);
+
+                bookUrl = ApiUtil.buildUrl(
+                        (queryParams[0] == null) ? "" : queryParams[0],
+                        (queryParams[1] == null) ? "" : queryParams[1],
+                        (queryParams[2] == null) ? "" : queryParams[2],
+                        (queryParams[3] == null) ? "" : queryParams[3]
+                );
+                new BooksQueryTask().execute(bookUrl);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -78,7 +105,7 @@ public class BookListActivity extends AppCompatActivity implements SearchView.On
     @Override
     public boolean onQueryTextSubmit(String query) {
         try {
-            URL bookUrl = ApiUtil.buildUrl(query.trim().toLowerCase());
+            bookUrl = ApiUtil.buildUrl(query.trim().toLowerCase());
             new BooksQueryTask().execute(bookUrl);
         } catch (Exception e) {
             Log.d("search book error", "onQueryTextSubmit: " + e.getMessage());
